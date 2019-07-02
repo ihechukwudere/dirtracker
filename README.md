@@ -7,8 +7,8 @@ Actively keeps track of only newly created files in the configured directory on 
   - [ ] Should be able to read xml file that is up to 1GB
   - [ ] Reads configuration file (xml) only once after it is created.
   - [ ] Extract root entity tag name and print it to console along with file name.
- 
-
+  
+  
 #### Documentation
 ##### Periodically checks the configured directory
 	I implemented the design Command pattern for structuring a behaviour 
@@ -17,4 +17,4 @@ Actively keeps track of only newly created files in the configured directory on 
 	class set the request and call the method (scheduleTask), this 
 	operation lets the Timer run methods that periodically checks directory
 	in the DirectoryRepeatableCheck class.  
- 
+
