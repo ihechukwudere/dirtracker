@@ -54,8 +54,8 @@ public abstract class Directory {
 		this.dirPath = dirPath;
 	}
 	
-	private BasicFileAttributes getFileAttributes(Path file) throws IOException {
-		 return Files.readAttributes(file,
+	private BasicFileAttributes getFileAttributes(Path filePath) throws IOException {
+		 return Files.readAttributes(filePath,
 						BasicFileAttributes.class);
 	}
 	
