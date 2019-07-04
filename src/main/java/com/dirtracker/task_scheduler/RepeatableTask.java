@@ -1,7 +1,11 @@
 package com.dirtracker.task_scheduler;
 
+import java.math.BigDecimal;
+import java.text.NumberFormat;
 import java.util.Timer;
 import java.util.TimerTask;
+
+import org.hamcrest.core.IsInstanceOf;
 
 /**
  * An abstract class that is a sub-class of TimerTask and implements Task 
@@ -10,8 +14,8 @@ import java.util.TimerTask;
  */
 public abstract class RepeatableTask extends TimerTask implements Task {
 
-	protected long timeInterval;
-	protected long delay;
+	protected BigDecimal timeInterval;
+	protected BigDecimal delay;
 	protected Timer timer;
 	
 	@Override
@@ -20,28 +24,35 @@ public abstract class RepeatableTask extends TimerTask implements Task {
 	}
 
 	@Override
-	public void scheduleTask(long timeInterval, long delay) {
-		this.timeInterval = timeInterval;
-		this.delay = delay;
+	public void scheduleTask(long timeInterval, long delay) throws NumberFormatException{
+		this.timeInterval = new BigDecimal(timeInterval);
+		this.delay = new BigDecimal(delay);
 		timer = new Timer();
-		timer.schedule(this, delay, timeInterval);
+		timer.schedule(this, this.delay.longValue(), this.timeInterval.longValue());
 	}
-	
-	public long getTimeInterval() {
+
+	@Override
+	public BigDecimal getTimeInterval() {
 		return timeInterval;
 	}
 
-	public void setTimeInterval(long timeInterval) {
+	@Override
+	public void setTimeInterval(BigDecimal timeInterval) {
 		this.timeInterval = timeInterval;
 	}
 
-	public long getDelay() {
+	@Override
+	public BigDecimal getDelay() {
 		return delay;
 	}
 
-	public void setDelay(long delay) {
+	@Override
+	public void setDelay(BigDecimal delay) {
 		this.delay = delay;
 	}
 	
-
+	private void isValuable(BigDecimal timeInterval, BigDecimal delay) {
+		Long time = timeInterval.longValue();
+	}
+	
 }
