@@ -8,13 +8,11 @@ public abstract class ContentViewResolver {
 
 	protected ContentReader contentReader;
 	
-	public void displayFileContent(Path filePath) throws ContentReaderException {
-		if (contentReader == null) 
-			throw new ContentReaderException("The file content could not displayed, no"
-					+ " content reader is implemented.");
+	public void displayFileContent(Path filePath) throws Exception {
+		hasContentReader();
 	};
 
-	public ContentReader getContentReader() {
+	public ContentReader getContentReader() throws Exception {
 		return contentReader;
 	}
 
@@ -22,5 +20,11 @@ public abstract class ContentViewResolver {
 		this.contentReader = contentReader;
 	}
 	
+	
+	protected void hasContentReader() throws ContentReaderException {
+		if (contentReader == null) 
+			throw new ContentReaderException("The file content could not displayed, no"
+					+ " content reader is implemented.");
+	}
 	
 }
