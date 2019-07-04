@@ -1,6 +1,5 @@
 package com.dirtracker.viewresolver.xml;
 
-import java.io.File;
 import java.io.IOException;
 import java.nio.file.Path;
 
@@ -43,9 +42,9 @@ public class SAXStreamer extends DefaultHandler implements XMLFileReader {
 			SAXParser parser = factory.newSAXParser();
 			parser.parse(filePath.toFile(), this);
 		} catch (SAXException | IOException e) {
-			e.printStackTrace();
+			System.out.println(e.getMessage());
 		} catch (ParserConfigurationException e) {
-			e.printStackTrace();
+			System.out.println(e.getMessage());
 		}
 	}
 	
