@@ -1,39 +1,63 @@
-package com.dirtracker.service;
+package com.dirtracker.task_scheduler;
 
 import java.io.IOException;
-import java.text.ParseException;
+import java.nio.file.Path;
 
 import com.dirtracker.domain.Directory;
-import com.dirtracker.task_scheduler.RepeatableTask;
 
-public class DirectoryRepeatableCheck extends RepeatableTask {
+/**
+ * A subclass of RepeatableTask class. It periodically checks
+ * the configured directory to read the newly created XML 
+ * configuration files only once.
+ * @author Ihechukwudere Okoroego
+ *
+ */
+public class PeriodicallyReadNewConfigFileInDirectory extends RepeatableTask {
 
 	private Directory dir;
 
-	public DirectoryRepeatableCheck(Directory dir) {
+	public PeriodicallyReadNewConfigFileInDirectory(Directory dir) {
 		this.dir = dir;
 	}
 
 
+	/**
+	 * Starts directory stream periodically
+	 */
 	@Override
 	public void run() {
 		try {
-			checkDirectory();
+			startDirectoryStream();
 		} catch (IOException e) {
-			e.printStackTrace();
+			System.out.println(e);
 		}
 	}
 
-	public void checkDirectory() throws IOException {
+	/**
+	 * Calls directory streaming operation and then calls
+	 * getElapsedTimeInMillisSinceFileCreation() method to calculate 
+	 * the period of time since each file creation.  It finds newly
+	 * created file/s by comparing the time since the file/s creation
+	 * the time interval. If new file is found, it sends the file to 
+	 * content view resolver. 
+	 * @throws IOException
+	 */
+	public void startDirectoryStream() throws IOException {
 		dir.streamDirectoryFiles().forEach((filePath) ->  {
 			try {
-				if (dir.getElapsedTimeInMillisSinceFileCreation(filePath) < timeInterval) {
-					System.out.println(timeInterval);
+				if (dir.getElapsedTimeInMillisSinceFileCreation(filePath).longValue() < timeInterval.longValue()) {
+					sendFileToContentViewResolver(dir, filePath);
 				}
-			} catch (IOException e) {
-				e.printStackTrace();
+			} catch (Exception e) {
+				System.out.println(e.getMessage());
 			}
 		});
+	}
+	
+	private void sendFileToContentViewResolver(Directory dir, Path filePath) throws Exception {
+		if (dir.getContentView() == null)
+			throw new Exception("No content view resolver is set for " + dir.getClass().getSimpleName());
+		dir.getContentView().displayFileContent(filePath);
 	}
 
 }
