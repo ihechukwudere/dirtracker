@@ -1,6 +1,5 @@
 package com.dirtracker.service;
 
-import java.math.BigDecimal;
 import java.nio.file.NoSuchFileException;
 import java.nio.file.Path;
 import java.nio.file.Paths;
@@ -12,9 +11,8 @@ import com.dirtracker.task_scheduler.Task;
 import com.dirtracker.viewresolver.ConsoleView;
 import com.dirtracker.viewresolver.ContentReader;
 import com.dirtracker.viewresolver.ContentViewResolver;
-import com.dirtracker.viewresolver.xml.SAXStreamer;
 
-public class ScheduleTaskService {
+public class DirectoryService {
 
 	private Directory directory;
 	

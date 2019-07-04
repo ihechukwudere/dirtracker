@@ -3,7 +3,7 @@ package com.dirtracker;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 
-import com.dirtracker.service.ScheduleTaskService;
+import com.dirtracker.service.DirectoryService;
 
 @SpringBootApplication
 public class DirectoryTrackerApplication {
@@ -11,7 +11,7 @@ public class DirectoryTrackerApplication {
 	public static void main(String[] args) throws Exception {
 		SpringApplication.run(DirectoryTrackerApplication.class, args);
 	
-		ScheduleTaskService confDirTask = new ScheduleTaskService();
+		DirectoryService confDirTask = new DirectoryService();
 		confDirTask.scheduleRepeatableCheckForConfiguredDirectory(3000, 0);
 		
 		/* To schedule a task that periodically checks 

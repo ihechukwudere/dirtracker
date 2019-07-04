@@ -29,7 +29,7 @@ public abstract class Directory {
 	 */
 	public Directory(Path dirPath) throws NoSuchFileException   {
 		if(!dirPath.toFile().exists()) 
-			throw new NoSuchFileException("No directory found in this path, " + dirPath);
+			throw new NoSuchFileException("No directory found in this path: " + dirPath);
 		this.dirPath = dirPath;
 	}
 
@@ -72,6 +72,12 @@ public abstract class Directory {
 
 	public void setContentView(ContentViewResolver contentViewResolver) {
 		this.contentViewResolver = contentViewResolver;
+	}
+	
+	public boolean hasContentViewResolver() throws Exception {
+		if (contentViewResolver == null)
+			throw new Exception("No content view resolver is set for " + this.getClass().getSimpleName());
+		return true;
 	}
 	
 }
