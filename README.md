@@ -16,5 +16,9 @@ Actively keeps track of only newly created files in the configured directory on 
 	interface declares a command that lets the ScheduleTaskService
 	class set the request and call the method (scheduleTask), this 
 	operation lets the Timer run methods that periodically checks directory
-	in the DirectoryRepeatableCheck class.  
+	in the DirectoryRepeatableCheck class.
+
+##### Handling exceptions
+	Almost all the possible exception that application might generate
+	is handled in the try catch blocks 
 
