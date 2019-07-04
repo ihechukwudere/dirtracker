@@ -10,8 +10,8 @@ public abstract class ContentViewResolver {
 	
 	public void displayFileContent(Path filePath) throws ContentReaderException {
 		if (contentReader == null) 
-			throw new ContentReaderException("The file content could be displayed because no"
-					+ " content reader is implemented");
+			throw new ContentReaderException("The file content could not displayed, no"
+					+ " content reader is implemented.");
 	};
 
 	public ContentReader getContentReader() {
