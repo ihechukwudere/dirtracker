@@ -46,7 +46,8 @@ public class PeriodicallyReadNewConfigFileInDirectory extends RepeatableTask {
 		dir.streamDirectoryFiles().forEach((filePath) ->  {
 			try {
 				if (dir.getElapsedTimeInMillisSinceFileCreation(filePath).longValue() < timeInterval.longValue()) {
-					sendFileToContentViewResolver(dir, filePath);
+					dir.hasContentViewResolver();
+					sendFileToContentViewResolver(filePath);
 				}
 			} catch (Exception e) {
 				System.out.println(e.getMessage());
@@ -54,9 +55,7 @@ public class PeriodicallyReadNewConfigFileInDirectory extends RepeatableTask {
 		});
 	}
 	
-	private void sendFileToContentViewResolver(Directory dir, Path filePath) throws Exception {
-		if (dir.getContentView() == null)
-			throw new Exception("No content view resolver is set for " + dir.getClass().getSimpleName());
+	private void sendFileToContentViewResolver(Path filePath) throws Exception {
 		dir.getContentView().displayFileContent(filePath);
 	}
 
