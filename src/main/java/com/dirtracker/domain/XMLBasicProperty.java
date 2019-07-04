@@ -1,6 +1,11 @@
 package com.dirtracker.domain;
 
-
+/**
+ * An object that represents the basic properties extracted from the 
+ * an XML file 
+ * @author Ihechukwudere Okoroego
+ *
+ */
 public class XMLBasicProperty implements FileResource<XMLBasicProperty> {
 
 	private String fileName;
