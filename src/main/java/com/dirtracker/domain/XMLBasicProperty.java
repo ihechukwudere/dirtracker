@@ -2,7 +2,7 @@ package com.dirtracker.domain;
 
 /**
  * An object that represents the basic properties extracted from the 
- * an XML file 
+ * an XML file. 
  * @author Ihechukwudere Okoroego
  *
  */
