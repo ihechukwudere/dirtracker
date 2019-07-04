@@ -1,13 +1,16 @@
 package com.dirtracker.domain;
 
 import java.io.IOException;
+import java.math.BigDecimal;
 import java.nio.file.DirectoryStream;
 import java.nio.file.Files;
+import java.nio.file.NoSuchFileException;
 import java.nio.file.Path;
-import java.nio.file.Paths;
 import java.nio.file.attribute.BasicFileAttributes;
 import java.nio.file.attribute.FileTime;
 import java.text.ParseException;
+
+import com.dirtracker.viewresolver.ContentViewResolver;
 
 /**
  * An Abstract class that is a super class to other classes that represent directories.
@@ -17,13 +20,17 @@ import java.text.ParseException;
 public abstract class Directory {
 	
 	private Path dirPath;
+	private ContentViewResolver contentViewResolver;
 	
 	/**
 	 * Requires a directory path
 	 * @param dirPath
+	 * @throws NoSuchFileException 
 	 */
-	public Directory(String dirPath) {
-		this.dirPath = Paths.get(dirPath);
+	public Directory(Path dirPath) throws NoSuchFileException   {
+		if(!dirPath.toFile().exists()) 
+			throw new NoSuchFileException("No directory found in this path, " + dirPath);
+		this.dirPath = dirPath;
 	}
 
 	public DirectoryStream<Path> streamDirectoryFiles()
@@ -40,10 +47,10 @@ public abstract class Directory {
 	 * @throws IOException
 	 * @throws ParseException 
 	 */
-	public long getElapsedTimeInMillisSinceFileCreation(Path filePath)
+	public BigDecimal getElapsedTimeInMillisSinceFileCreation(Path filePath)
 			throws IOException {
 		FileTime fileTime = getFileAttributes(filePath).creationTime();
-		return (System.currentTimeMillis() - fileTime.toMillis());
+		return new BigDecimal(System.currentTimeMillis() - fileTime.toMillis());
 	}
 
 	public Path getDirPath() {
@@ -57,6 +64,14 @@ public abstract class Directory {
 	private BasicFileAttributes getFileAttributes(Path filePath) throws IOException {
 		 return Files.readAttributes(filePath,
 						BasicFileAttributes.class);
+	}
+
+	public ContentViewResolver getContentView() {
+		return contentViewResolver;
+	}
+
+	public void setContentView(ContentViewResolver contentViewResolver) {
+		this.contentViewResolver = contentViewResolver;
 	}
 	
 }

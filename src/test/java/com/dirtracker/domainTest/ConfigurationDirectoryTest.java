@@ -5,6 +5,7 @@ import static org.hamcrest.Matchers.lessThan;
 
 import java.io.File;
 import java.io.IOException;
+import java.math.BigDecimal;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
@@ -23,18 +24,17 @@ import com.dirtracker.domain.Directory;
 public class ConfigurationDirectoryTest {
 
 	static Directory configDir;
-	static String tempConfigDir = "src/main/resources/temp_configured_directory";
-	static Path path = Paths.get(tempConfigDir);
+	static Path dirPath = Paths.get("src/main/resources/temp_configured_directory");
 	static String[] files = {"test1.xml", "test2.xml"};
 
 	@BeforeClass
 	public static void setUpBeforeClass() throws Exception {
 
-		Files.createDirectories(path);
+		Files.createDirectories(dirPath);
 		for (String file : files) {
-			new File(path.toString()+"/" +file).createNewFile();
+			new File(dirPath.toString()+"/" +file).createNewFile();
 		}
-		configDir = new ConfiguredDirectory(tempConfigDir);
+		configDir = new ConfiguredDirectory(dirPath);
 	}
 
 	/**
@@ -43,7 +43,7 @@ public class ConfigurationDirectoryTest {
 	 */
 	@AfterClass
 	public static void tearDownAfterClass() throws Exception {
-		Files.walk(path).sorted(Comparator.reverseOrder())
+		Files.walk(dirPath).sorted(Comparator.reverseOrder())
 		.map(Path::toFile)
 		.forEach(File::delete);
 
@@ -72,12 +72,11 @@ public class ConfigurationDirectoryTest {
 		configDir.streamDirectoryFiles().forEach((path) -> {
 
 			try {
-				long fileTimeCreation = 
+				BigDecimal fileTimeCreation = 
 						configDir.getElapsedTimeInMillisSinceFileCreation(path);
-				int intValue = Integer.valueOf(String.valueOf(fileTimeCreation));
 				
-				assertThat(intValue, greaterThan(35));
-				assertThat(intValue, lessThan(70));
+				assertThat(fileTimeCreation.intValue(), greaterThan(35));
+				assertThat(fileTimeCreation.intValue(), lessThan(70));
 				
 			} catch (NumberFormatException numberFormatException) {
 				System.out.println(numberFormatException);
