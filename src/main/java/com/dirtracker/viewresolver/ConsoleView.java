@@ -7,7 +7,10 @@ public class ConsoleView extends ContentViewResolver {
 	@Override
 	public void displayFileContent(Path filePath) throws Exception {
 		super.displayFileContent(filePath);
-		System.out.println(contentReader.readFile(filePath));
+		if(fileContentReader.readFile(filePath) != null) {
+			System.out.println(fileContentReader.readFile(filePath));
+		}
+		
 	}
 	
 }

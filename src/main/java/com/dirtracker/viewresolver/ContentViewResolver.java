@@ -6,23 +6,23 @@ import com.dirtracker.exception_handlers.ContentReaderException;
 
 public abstract class ContentViewResolver {
 
-	protected ContentReader contentReader;
+	protected FileContentReader fileContentReader;
 	
 	public void displayFileContent(Path filePath) throws Exception {
 		hasContentReader();
 	};
 
-	public ContentReader getContentReader() throws Exception {
-		return contentReader;
+	public FileContentReader getContentReader() throws Exception {
+		return fileContentReader;
 	}
 
-	public void setContentReader(ContentReader contentReader) {
-		this.contentReader = contentReader;
+	public void setContentReader(FileContentReader fileContentReader) {
+		this.fileContentReader = fileContentReader;
 	}
 	
 	
 	protected void hasContentReader() throws ContentReaderException {
-		if (contentReader == null) 
+		if (fileContentReader == null) 
 			throw new ContentReaderException("The file content could not displayed, no"
 					+ " content reader is implemented.");
 	}
