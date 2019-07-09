@@ -6,12 +6,12 @@ package com.dirtracker.domain;
  * @author Ihechukwudere Okoroego
  *
  */
-public class XMLFileBasic implements FileResource<XMLFileBasic> {
+public class XMLFileSimplePropertyBean implements FileResource<XMLFileSimplePropertyBean> {
 
 	private String fileName;
 	private String rootEntityTagName;
 	
-	public XMLFileBasic() {}
+	public XMLFileSimplePropertyBean() {}
 
 	public String getName() {
 		return fileName;
@@ -46,7 +46,7 @@ public class XMLFileBasic implements FileResource<XMLFileBasic> {
 			return false;
 		if (getClass() != obj.getClass())
 			return false;
-		XMLFileBasic other = (XMLFileBasic) obj;
+		XMLFileSimplePropertyBean other = (XMLFileSimplePropertyBean) obj;
 		if (fileName == null) {
 			if (other.fileName != null)
 				return false;
@@ -62,7 +62,7 @@ public class XMLFileBasic implements FileResource<XMLFileBasic> {
 
 	@Override
 	public String toString() {
-		return "XMLFileBasic [fileName=" + fileName + ", rootEntityTagName=" + rootEntityTagName + "]";
+		return "XMLFileSimplePropertyBean [fileName=" + fileName + ", rootEntityTagName=" + rootEntityTagName + "]";
 	}
 
 }
