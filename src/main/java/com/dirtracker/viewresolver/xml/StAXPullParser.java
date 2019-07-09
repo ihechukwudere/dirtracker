@@ -11,15 +11,19 @@ import javax.xml.stream.XMLInputFactory;
 import javax.xml.stream.XMLStreamException;
 import javax.xml.stream.XMLStreamReader;
 import com.dirtracker.domain.FileResource;
-import com.dirtracker.domain.XMLFileBasic;
+import com.dirtracker.domain.XMLFileSimplePropertyBean;
 import com.dirtracker.exception_handlers.InvalidFileExtensionException;
 import com.dirtracker.viewresolver.ContentReaderType;
 import com.dirtracker.viewresolver.FileContentReader;
 
-
+/**
+ * An implementation of ContentReaderType class that use XML 
+ * streaming APIs to read XML file.
+ * @author Ihechukwudere Okoroego
+ */
 public class StAXPullParser extends ContentReaderType {
 
-	private XMLFileBasic xmlProperty;
+	private XMLFileSimplePropertyBean xmlPropertyBean;
 
 	public StAXPullParser(FileContentReader fileContentReader) {
 		super(fileContentReader);
@@ -28,31 +32,29 @@ public class StAXPullParser extends ContentReaderType {
 
 	/**
 	 * Reads an XML file, retrieves the file name and root element tag, and creates
-	 * an instance of the XMLFileBasic class, setting its fields with these properties.
-	 * XMLFileBasic is a JavaBean that represents the simple properties retrieved from
+	 * an instance of the XMLFileSimplePropertyBean class, and bind its fields with these properties.
+	 * XMLFileSimplePropertyBean is a JavaBean that represents the simple properties retrieved from
 	 * the XML file.
 	 * @return
 	 */
 	@Override
 	public List<FileResource<? extends Object>> readFile(Path filePath) {
 		setFileName(filePath.getFileName().toString());
-		List<FileResource<? extends Object>> container = fileContentReader.readFile(filePath);
 		try {
-			if (!hasValidExtension(getFileName())){
-				container = null;
+			if (!isNotValidExtension(getFileName())) {
+				setFileResourceContainer(null); // Clears container/sets to null to prevent display.
 				throw new InvalidFileExtensionException("File is not an xml");
-			}else {
-				xmlProperty = new XMLFileBasic();
-				xmlProperty.setName(getFileName());
-				xmlProperty.setRootEntityTagName(getRootEntityTagName(filePath));
-				container.add(xmlProperty);
 			}
+				xmlPropertyBean = 
+						bindXMLSimplePropertiesToBeanFields(getFileName(), getRootEntityTagName(filePath));
+				setFileResourceContainer(fileContentReader.readFile(filePath));
+				addBeanToResourceContainer(xmlPropertyBean);
 		} catch (InvalidFileExtensionException e) {
 			System.out.println(e.getMessage());
 		} catch (IOException e) {
 			System.out.println(e.getMessage());
 		}
-		return container;
+		return getFileResourceContainer();
 	}
 
 
@@ -71,5 +73,16 @@ public class StAXPullParser extends ContentReaderType {
 			System.out.println(e.getMessage());
 		}
 		return reader;
+	}
+	
+	private XMLFileSimplePropertyBean bindXMLSimplePropertiesToBeanFields(String fileName, String rootElementName) {
+		xmlPropertyBean = new XMLFileSimplePropertyBean();
+		xmlPropertyBean.setName(fileName);
+		xmlPropertyBean.setRootEntityTagName(rootElementName);
+		return xmlPropertyBean;
+	}
+	
+	private void addBeanToResourceContainer(FileResource<? extends Object> xmlPropertyBean) {
+		getFileResourceContainer().add(xmlPropertyBean);
 	}
 }
