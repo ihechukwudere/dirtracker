@@ -23,8 +23,12 @@ Actively keeps track of only newly created files in the configured directory on 
 	contents and their properties using the strategy pattern. The 
 	ContentViewResolver field in the Directory class could have different
 	implementations that let any file format in the directory readable and 
-	viewable on any platform. In this application, the targeted file format 
-	is XML and the reading implementation is the SAXStreamer class.
+	viewable on any platform. Underneath the strategy pattern, I have 
+	implemented the decorator pattern for additional functionality that lets
+	FileContentReader class to be easily extended to incorporate new behavior 
+	without code modifications. In this application, the targeted file format
+	to read is XML and the implementations are StAXPullPaser and XMLContentReader
+	classes.
 	
 ##### Should be able to read XML file that is up to 1GB
 	Considering the capability of the application to read XML files sized up to
