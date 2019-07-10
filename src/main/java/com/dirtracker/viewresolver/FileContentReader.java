@@ -10,9 +10,9 @@ public abstract class FileContentReader {
 
 	private String fileName;
 	private String fileExtention;
-	private List<FileResource<? extends Object>> fileResourceContainer = null;
+	private List<FileResource> fileResourceContainer = null;
 
-	public abstract List<FileResource<? extends Object>> readFile(Path filePath);
+	public abstract List<FileResource> readFile(Path filePath);
 
 	/**
 	 * 
@@ -20,7 +20,7 @@ public abstract class FileContentReader {
 	 * @return
 	 * @throws InvalidFileExtensionException
 	 */
-	public boolean isNotValidExtension(String file) throws InvalidFileExtensionException {
+	public boolean isValidFileExtension(String file) throws InvalidFileExtensionException {
 		return false;
 	};
 
@@ -31,12 +31,12 @@ public abstract class FileContentReader {
 	public void setFileName(String fileName) {
 		this.fileName = fileName;
 	}
-	
-	public List<FileResource<? extends Object>> getFileResourceContainer() {
+
+	public List<FileResource> getFileResourceContainer() {
 		return fileResourceContainer;
 	}
 
-	public void setFileResourceContainer(List<FileResource<? extends Object>> fileResourceContainer) {
+	public void setFileResourceContainer(List<FileResource> fileResourceContainer) {
 		this.fileResourceContainer = fileResourceContainer;
 	}
 

@@ -16,15 +16,15 @@ import com.dirtracker.viewresolver.xml.StAXPullParser;
 import com.dirtracker.viewresolver.xml.XMLContentReader;
 
 @Service
-public class DirectoryService {
+public class DirectoryService implements AbstractService{
 
 	private Directory directory;
 	
 	@Autowired
 	private TaskSchedulerService taskScheduler;
 	
-	public void scheduleRepeatableCheckForConfiguredDirectory(long timeInterval, long delay)  {
-		String dirPath = "src/main/resources/configured_directory";
+	public TaskSchedulerService scheduleRepeatableCheckForConfiguredDirectory(long timeInterval, long delay)  {
+		String dirPath = "src/main/resources/config_dir";
 		try {
 			directory = new ConfiguredDirectory(Paths.get(dirPath));
 			ContentViewResolver contentView  = new ConsoleView();
@@ -37,6 +37,17 @@ public class DirectoryService {
 		} catch (Exception e) {
 			System.out.println(e.getMessage());
 		}
+		return taskScheduler;
 	}
+
+	public Directory getDirectory() {
+		return directory;
+	}
+
+	public void setDirectory(Directory directory) {
+		this.directory = directory;
+	}
+	
+	
 	
 }

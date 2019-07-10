@@ -6,6 +6,7 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.annotation.ComponentScan;
 import com.dirtracker.service.DirectoryService;
+import com.dirtracker.service.TaskSchedulerService;
 
 
 @SpringBootApplication
@@ -20,7 +21,9 @@ public class DirectoryTrackerApplication {
 				SpringApplication.run(DirectoryTrackerApplication.class, args);
 		DirectoryTrackerApplication appRunner = new DirectoryTrackerApplication();
 		context.getAutowireCapableBeanFactory().autowireBean(appRunner);
-		appRunner.dirService.scheduleRepeatableCheckForConfiguredDirectory(3000, 0);
+		TaskSchedulerService taskSchedulerService =
+				appRunner.dirService.scheduleRepeatableCheckForConfiguredDirectory(3000, 0);
+		taskSchedulerService.start();
 		
 		/* To schedule a task that periodically checks 
 		 * a directory and read new xml configuration files
