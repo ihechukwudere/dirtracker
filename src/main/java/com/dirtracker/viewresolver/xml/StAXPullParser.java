@@ -32,24 +32,26 @@ public class StAXPullParser extends ContentReaderType {
 
 	/**
 	 * Reads an XML file, retrieves the file name and root element tag, and creates
-	 * an instance of the XMLFileSimplePropertyBean class, and bind its fields with these properties.
+	 * an instance of the XMLFileSimplePropertyBean class, binds its fields with these properties,
+	 * and adds the bean to the FileResource container.
 	 * XMLFileSimplePropertyBean is a JavaBean that represents the simple properties retrieved from
 	 * the XML file.
 	 * @return
 	 */
 	@Override
-	public List<FileResource<? extends Object>> readFile(Path filePath) {
+	public List<FileResource> readFile(Path filePath) {
 		setFileName(filePath.getFileName().toString());
 		try {
-			if (!isNotValidExtension(getFileName())) {
-				setFileResourceContainer(null); // Clears container/sets to null to prevent display.
-				throw new InvalidFileExtensionException("File is not an xml");
-			}
+			if (isValidFileExtension(getFileName())) {
 				xmlPropertyBean = 
 						bindXMLSimplePropertiesToBeanFields(getFileName(), getRootEntityTagName(filePath));
 				setFileResourceContainer(fileContentReader.readFile(filePath));
 				addBeanToResourceContainer(xmlPropertyBean);
+			}
+				
 		} catch (InvalidFileExtensionException e) {
+			// Clears container/sets to null to prevent displaying empty container.
+			setFileResourceContainer(null);
 			System.out.println(e.getMessage());
 		} catch (IOException e) {
 			System.out.println(e.getMessage());
@@ -77,12 +79,12 @@ public class StAXPullParser extends ContentReaderType {
 	
 	private XMLFileSimplePropertyBean bindXMLSimplePropertiesToBeanFields(String fileName, String rootElementName) {
 		xmlPropertyBean = new XMLFileSimplePropertyBean();
-		xmlPropertyBean.setName(fileName);
+		xmlPropertyBean.setFileName(fileName);
 		xmlPropertyBean.setRootEntityTagName(rootElementName);
 		return xmlPropertyBean;
 	}
 	
-	private void addBeanToResourceContainer(FileResource<? extends Object> xmlPropertyBean) {
+	private void addBeanToResourceContainer(FileResource xmlPropertyBean) {
 		getFileResourceContainer().add(xmlPropertyBean);
 	}
 }

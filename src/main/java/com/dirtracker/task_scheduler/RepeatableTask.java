@@ -1,11 +1,8 @@
 package com.dirtracker.task_scheduler;
 
 import java.math.BigDecimal;
-import java.text.NumberFormat;
 import java.util.Timer;
 import java.util.TimerTask;
-
-import org.hamcrest.core.IsInstanceOf;
 
 /**
  * An abstract class that is a sub-class of TimerTask and implements Task 
@@ -19,8 +16,9 @@ public abstract class RepeatableTask extends TimerTask implements Task {
 	protected Timer timer;
 	
 	@Override
-	public void cancelTask() {
+	public boolean cancel() {
 		System.out.println("Task is cancelled");
+		return false;
 	}
 
 	@Override
@@ -28,7 +26,6 @@ public abstract class RepeatableTask extends TimerTask implements Task {
 		this.timeInterval = new BigDecimal(timeInterval);
 		this.delay = new BigDecimal(delay);
 		timer = new Timer();
-		timer.schedule(this, this.delay.longValue(), this.timeInterval.longValue());
 	}
 
 	@Override
@@ -50,9 +47,15 @@ public abstract class RepeatableTask extends TimerTask implements Task {
 	public void setDelay(BigDecimal delay) {
 		this.delay = delay;
 	}
-	
-	private void isValuable(BigDecimal timeInterval, BigDecimal delay) {
-		Long time = timeInterval.longValue();
+
+	@Override
+	public RepeatableTask start() {
+		timer.schedule(this, this.delay.longValue(), this.timeInterval.longValue());
+		return this;
 	}
-	
+
+	@Override
+	public boolean stop() {
+		return super.cancel();
+	}
 }

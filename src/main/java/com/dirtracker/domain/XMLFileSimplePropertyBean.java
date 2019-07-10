@@ -6,19 +6,19 @@ package com.dirtracker.domain;
  * @author Ihechukwudere Okoroego
  *
  */
-public class XMLFileSimplePropertyBean implements FileResource<XMLFileSimplePropertyBean> {
+public class XMLFileSimplePropertyBean implements FileResource {
 
 	private String fileName;
 	private String rootEntityTagName;
 	
 	public XMLFileSimplePropertyBean() {}
 
-	public String getName() {
+	public String getFileName() {
 		return fileName;
 	}
 
-	public void setName(String name) {
-		this.fileName = name;
+	public void setFileName(String fileName) {
+		this.fileName = fileName;
 	}
 
 	public String getRootEntityTagName() {

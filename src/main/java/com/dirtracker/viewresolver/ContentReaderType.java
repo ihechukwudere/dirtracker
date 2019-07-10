@@ -14,9 +14,12 @@ public abstract class ContentReaderType extends FileContentReader {
 	}
 	
 	@Override
-	public boolean isNotValidExtension(String file) throws InvalidFileExtensionException {
+	public boolean isValidFileExtension(String file) throws InvalidFileExtensionException {
 		Pattern fileExtPattern =  Pattern.compile("([^\\s]+(\\.(?i)(" +getFileExtention()+"))$)");
 		Matcher matcher = fileExtPattern.matcher(file);
+		if(!matcher.matches())
+			throw new InvalidFileExtensionException(file 
+					+ " extension dose not match ." + getFileExtention() + " as required.");
 		return matcher.matches();
 	}
 }

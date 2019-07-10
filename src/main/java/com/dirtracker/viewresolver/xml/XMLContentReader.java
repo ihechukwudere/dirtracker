@@ -10,8 +10,8 @@ import com.dirtracker.viewresolver.FileContentReader;
 public class XMLContentReader extends FileContentReader {
 
 	@Override
-	public List<FileResource<? extends Object>> readFile(Path filePath) {
-		setFileResourceContainer(new ArrayList<FileResource<? extends Object>>());
+	public List<FileResource> readFile(Path filePath) {
+		setFileResourceContainer(new ArrayList<>());
 		return getFileResourceContainer();
 	}
 }
