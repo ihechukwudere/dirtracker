@@ -26,7 +26,7 @@ import com.dirtracker.domain.Directory;
 public class ConfigurationDirectoryTest {
 
 	static Directory configDir;
-	static Path dirPath = Paths.get("src/main/resources/temp_configured_directory");
+	static Path dirPath = Paths.get("src/main/resources/temp_configured_directory/");
 	static String[] files = {"test1.xml", "test2.xml"};
 	
 	@Rule
@@ -37,7 +37,7 @@ public class ConfigurationDirectoryTest {
 
 		Files.createDirectories(dirPath);
 		for (String file : files) {
-			new File(dirPath.toString()+"/" +file).createNewFile();
+			new File(dirPath.toString() +file).createNewFile();
 		}
 		
 	}
@@ -69,8 +69,7 @@ public class ConfigurationDirectoryTest {
 	 * Should test that files in directory are streamed
 	 * and the time since file creation of file is greater
 	 * that 35 milliseconds. 35 to 200 milliseconds is the estimated 
-	 * time for the files from the time they are created till when
-	 * they are deleted.
+	 * time from when the files are created till when they are deleted.
 	 */
 	@Test
 	public void streamDirectoryFilesTest() throws IOException {
