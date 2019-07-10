@@ -11,16 +11,17 @@ Actively keeps track of only newly created files in the configured directory on 
   
 #### Documentation
 ##### Periodically checks the configured directory
-	Implemented the design Command pattern for structuring a behaviour 
-	that periodically checks the configured directory. The Task 
-	interface declares a command that lets the ScheduleTaskService
-	class set the request and call the method (scheduleTask), this 
-	operation lets the Timer run methods that periodically checks directory
-	in the DirectoryRepeatableCheck class.
+	Implemented the design Command desdign pattern for structuring 
+	a behaviour that periodically checks the configured directory.
+	The Task interface declares a command that lets a client code set the 
+	request and trigger the operation using the declared method. This 
+	operation lets subclasses run the appropriate function in the request
+	object. PeriodicallyReadNewConfigFileInDirectory is command that passes
+	the receiver (Directory class and its implementations) of the request.
 
 ##### Reads XML files only
 	I encapsulated the algorithms for reading and displaying directory
-	contents and their properties using the strategy pattern. The 
+	contents and their properties using the strategy design pattern. The 
 	ContentViewResolver field in the Directory class could have different
 	implementations that let any file format in the directory readable and 
 	viewable on any platform. Underneath the strategy pattern, I have 
@@ -32,15 +33,33 @@ Actively keeps track of only newly created files in the configured directory on 
 	
 ##### Should be able to read XML file that is up to 1GB
 	Considering the capability of the application to read XML files sized up to
-	1GB, I have used a simple approach in reading the XML file (SAX streaming 
-	APIs from Java XML). SAX is much faster and can use less memory than a 
+	1GB, I have used a simple approach in reading the XML file (StAX streaming 
+	APIs from Java XML). StAX is much faster and can use less memory than a 
 	tree-based processor like DOM.
 	
 ##### Reads configuration file (XML) only once after it is created.
+	The getElapsedTimeInMillisSinceFileCreation(), method in the Directory 
+	class calculate the period of time since each file creation. Newly created files
+	are determined by comparing the time since the file creation to
+	the task time-interval.
 
 ##### Handled exceptions
 	All the possible exceptions that might be generated in the application
 	is handled by the Java built-in exceptions handlers except for the 
 	exception that might be thrown when the ContentReader object is null. 
 	This exception is handled with a custom exception (ContentReaderException).
+	
+##### Integration and testing
+	To be able perform functional testing, few simple objects (Customer, Customers,
+	Employees, and Employee objects) are marshalled to XML files and added to
+	the confgured directory. The main application program reads these xml files
+	periodically as they are added and displays their names and root entity tags 
+	in the console. To assert these properties an instance of a TimerTask is started
+	in the DirTrackerApplicationTests class. The TimerTask instance lets an
+	instance of the RepeatableDirectoryCheckTester class to marshal object instances
+	to an XML file and periodically adds them in the configured directory.
+	The main application code is started to also periodically read these newly added
+	xml files. An instance of RepeatableDirectoryCheckTester class is used to get the
+	extracted data from the main application and then checks the equality of theses 
+	Objects to an explicitly created objects.
 
