@@ -16,7 +16,8 @@ public interface Task {
 	 * @param delay
 	 */
 	public void scheduleTask(long timeInterval, long delay) throws NumberFormatException;
-	public void cancelTask();
+	public boolean stop();
+	public Task start();
 	public void setTimeInterval(BigDecimal time);
 	public BigDecimal getTimeInterval();
 	public void setDelay(BigDecimal delayTime);
