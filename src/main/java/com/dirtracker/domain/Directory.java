@@ -1,5 +1,6 @@
 package com.dirtracker.domain;
 
+import java.io.File;
 import java.io.IOException;
 import java.math.BigDecimal;
 import java.nio.file.DirectoryStream;
@@ -9,13 +10,13 @@ import java.nio.file.Path;
 import java.nio.file.attribute.BasicFileAttributes;
 import java.nio.file.attribute.FileTime;
 import java.text.ParseException;
+import java.util.Comparator;
 
 import com.dirtracker.viewresolver.ContentViewResolver;
 
 /**
  * An Abstract class that is a super class to other classes that represent directories.
  * @author Ihechukwudere Okoroego
- *
  */
 public abstract class Directory {
 	
@@ -27,10 +28,11 @@ public abstract class Directory {
 	 * @param dirPath
 	 * @throws NoSuchFileException 
 	 */
-	public Directory(Path dirPath) throws NoSuchFileException   {
-		if(!dirPath.toFile().exists()) 
-			throw new NoSuchFileException("No directory found in this path: " + dirPath);
+	public Directory(Path dirPath)  {	
 		this.dirPath = dirPath;
+		if(!dirPath.toFile().exists()) {
+			createNewDirectory();
+		}
 	}
 
 	public DirectoryStream<Path> streamDirectoryFiles()
@@ -78,6 +80,24 @@ public abstract class Directory {
 		if (contentViewResolver == null)
 			throw new Exception("No content view resolver is set for " + this.getClass().getSimpleName());
 		return true;
+	}
+	
+	public void deleteAll() throws IOException {
+		Files.walk(dirPath).sorted(Comparator.reverseOrder())
+		.map(Path::toFile)
+		.forEach(File::delete);
+	}
+	
+	public void addNewFile(String file) throws IOException {
+		new File(dirPath.toString() +"/" +file).createNewFile();	
+	}
+		
+	public void createNewDirectory() {
+		try {
+			Files.createDirectories(dirPath);
+		} catch (IOException e) {
+			System.out.println(e.getMessage());
+		}
 	}
 	
 }
