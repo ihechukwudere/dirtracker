@@ -55,7 +55,7 @@ public abstract class RepeatableTask extends TimerTask implements Task {
 	}
 
 	@Override
-	public boolean stop() {
-		return super.cancel();
+	public void stop() {
+		timer.cancel();
 	}
 }
