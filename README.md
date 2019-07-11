@@ -40,7 +40,7 @@ Actively keeps track of only newly created files in the configured directory on 
 ##### Reads configuration file (XML) only once after it is created.
 	The getElapsedTimeInMillisSinceFileCreation(), method in the Directory 
 	class calculate the period of time since each file creation. Newly created files
-	are determined by comparing the time since the file creation to
+	are read only once by determining the time since the file was created to
 	the task time-interval.
 
 ##### Handled exceptions
@@ -60,6 +60,6 @@ Actively keeps track of only newly created files in the configured directory on 
 	to an XML file and periodically adds them in the configured directory.
 	The main application code is started to also periodically read these newly added
 	xml files. An instance of RepeatableDirectoryCheckTester class is used to get the
-	extracted data from the main application and then checks the equality of theses 
-	Objects to an explicitly created objects.
+	extracted data from the main application and then checks the equality of these 
+	objects to an explicitly created objects.
 
