@@ -1,7 +1,7 @@
 # dirtracker
 Actively keeps track of only newly created files in the configured directory on a periodic basis. Displays the file name and root entity tag name in the console.
 
-### Program features
+### Functionalities
   - [ ] Periodically checks the configured directory
   - [ ] Reads XML files only
   - [ ] Should be able to read XML file that is up to 1GB
