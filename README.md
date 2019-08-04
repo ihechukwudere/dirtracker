@@ -26,7 +26,7 @@ Actively keeps track of only newly created files in the configured directory on 
 	implementations that let any file format in the directory readable and 
 	viewable on any platform. Underneath the strategy pattern, I have 
 	implemented the decorator pattern for additional functionality that lets
-	FileContentReader class to be easily extended to incorporate new behavior 
+	FileContentReader class to be easily extended to incorporate new behaviour 
 	without code modifications. In this application, the targeted file format
 	to read is XML and the implementations are StAXPullPaser and XMLContentReader
 	classes.
@@ -52,7 +52,7 @@ Actively keeps track of only newly created files in the configured directory on 
 ##### Integration and testing
 	To be able perform functional testing, few simple objects (Customer, Customers,
 	Employees, and Employee objects) are marshalled to XML files and added to
-	the confgured directory. The main application program reads these xml files
+	the configured directory. The main application program reads these xml files
 	periodically as they are added and displays their names and root entity tags 
 	in the console. To assert these properties an instance of a TimerTask is started
 	in the DirTrackerApplicationTests class. The TimerTask instance lets an
